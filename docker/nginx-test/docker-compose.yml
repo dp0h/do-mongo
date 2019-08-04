@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  test-app1:
+    container_name: test-app1
+    restart: always
+    build: ./app1
+
+  test-app2:
+    container_name: test-app2
+    restart: always
+    build: ./app2
+
+  test-nginx:
+    container_name: test-nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - test-app1
+      - test-app2
