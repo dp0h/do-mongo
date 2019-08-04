@@ -26,10 +26,11 @@ mongo-init-user:
 	mongo admin --host localhost -u $(MONGO_ADM) -p $(MONGO_ADM_PSW) --eval "db.createUser({user: '$(MONGO_USER)', pwd: '$(MONGO_USER_PSW)', roles: [{role: 'readWrite', db: '$(MONGO_APP_DB)'}], passwordDigestor:'server'});"
 
 mongo-init-backup:
-	mongo admin --host localhost -u $(MONGO_ADM) -p $(MONGO_ADM_PSW) --eval "db.createUser({user: '$(MONGO_BACKUP_USER)', pwd: '$(MONGO_BACKUP_USER_PSW)', roles: [{role: 'backup', db: 'admin'}], passwordDigestor:'server'});"
+	mongo admin --host localhost -u $(MONGO_ADM) -p $(MONGO_ADM_PSW) --eval "db.createUser({user: '$(MONGO_BACKUP_USER)', pwd: '$(MONGO_BACKUP_USER_PSW)', roles: [{role: 'backup', db: '$(MONGO_APP_DB)'}], passwordDigestor:'server'});"
 
 mongo-dump:
-	mongodump --username root --password root --excludeCollectionsWithPrefix=system --authenticationDatabase admin --db backdb
+	mongodump --username $(MONGO_BACKUP_USER) --password $(MONGO_BACKUP_USER_PSW) --excludeCollectionsWithPrefix=system --authenticationDatabase admin --db backdb
 
 mongo-restore:
-	mongorestore --username root --password root
+	mongorestore --username $(MONGO_ADM) --password $(MONGO_ADM_PSW)
+
