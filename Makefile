@@ -10,27 +10,20 @@ help:
 	@echo "Targets:"
 	@echo
 	@echo " *** mongodb targets ***	"
-	@echo "	mongo-init"
-	@echo "	mongo-create"
 	@echo "	mongo-start"
 	@echo "	mongo-stop"
-	@echo "	mongo-kill"
+	@echo "	mongo-init-user"
 	@echo
 
 # MongoDB dev commands
-
-mongo-init:
-	docker pull mongo
-	mkdir -p $(MONGO_PATH)
-
-mongo-create:
-	docker run -d -p $(MONGO_PORT):27017 -v  $(MONGO_PATH):/data/db --name mongo mongo
-
 mongo-start:
-	docker start mongo
+	docker-compose -f docker/mongo/docker-compose.yml up -d
 
 mongo-stop:
-	docker stop mongo
+	docker-compose -f docker/mongo/docker-compose.yml down
 
-mongo-kill:
-	docker kill mongo
+mongo-init-user:
+	mongo admin --host localhost -u $(MONGO_ADM) -p $(MONGO_ADM_PSW) --eval "db.createUser({user: '$(MONGO_USER)', pwd: '$(MONGO_USER_PSW)', roles: [{role: 'readWrite', db: '$(MONGO_APP_DB)'}], passwordDigestor:'server'});"
+
+mongo-init-backup:
+	mongo admin --host localhost -u $(MONGO_ADM) -p $(MONGO_ADM_PSW) --eval "db.createUser({user: '$(MONGO_BACKUP_USER)', pwd: '$(MONGO_BACKUP_USER_PSW)', roles: [{role: 'backup', db: 'admin'}], passwordDigestor:'server'});"
