@@ -27,3 +27,9 @@ mongo-init-user:
 
 mongo-init-backup:
 	mongo admin --host localhost -u $(MONGO_ADM) -p $(MONGO_ADM_PSW) --eval "db.createUser({user: '$(MONGO_BACKUP_USER)', pwd: '$(MONGO_BACKUP_USER_PSW)', roles: [{role: 'backup', db: 'admin'}], passwordDigestor:'server'});"
+
+mongo-dump:
+	mongodump --username root --password root --excludeCollectionsWithPrefix=system --authenticationDatabase admin --db backdb
+
+mongo-restore:
+	mongorestore --username root --password root
