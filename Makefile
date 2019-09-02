@@ -41,7 +41,7 @@ do-mongo-machine-create:
 	docker-machine create --digitalocean-size "s-1vcpu-1gb" --driver digitalocean --digitalocean-access-token $(DO_ACCESS_TOKEN) --digitalocean-region lon1 $(MONGO_CONTAINER)
 
 do-mongo-machine-attach:
-	docker-machine create --driver generic --generic-ip-address=$(MONGO_HOST) --generic-ssh-key ~/.docker_machine/$(MONGO_CONTAINER)/id_rsa $(MONGO_CONTAINER)
+	docker-machine create --driver generic --generic-ip-address=$(MONGO_HOST) --generic-ssh-key ~/.docker/machine/$(MONGO_CONTAINER)/id_rsa $(MONGO_CONTAINER)
 
 do-mongo:
 	docker-machine env $(MONGO_CONTAINER)
