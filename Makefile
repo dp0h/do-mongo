@@ -2,6 +2,9 @@
 cnf ?= .env
 include $(cnf)
 export $(shell sed 's/=.*//' $(cnf))
+cnf_priv ?= ../.env
+include $(cnf_priv)
+export $(shell sed 's/=.*//' $(cnf_priv))
 
 help:
 	@echo
@@ -34,3 +37,5 @@ mongo-dump:
 mongo-restore:
 	mongorestore --username $(MONGO_ADM) --password $(MONGO_ADM_PSW)
 
+do-mongo-create:
+	docker-machine create --digitalocean-size "s-1vcpu-1gb" --driver digitalocean --digitalocean-access-token $(DO_ACCESS_TOKEN) --digitalocean-region lon1  besttv-mongo-1
