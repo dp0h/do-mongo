@@ -1,7 +1,7 @@
 # do-mongo
 Simple scripts for deploying MongoDB to DigitalOcean
 
-See `make` for available targest.
+See `make` for available targets.
 
 ## Configuration
 Need to set DigitalOcean token (DO_ACCESS_TOKEN) to being able to create a Droplet.
