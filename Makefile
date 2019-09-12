@@ -11,11 +11,10 @@ help:
 	@echo "Usage: make TARGET"
 	@echo
 	@echo "Targets:"
-	@echo
-	@echo " *** mongodb targets ***	"
-	@echo "	mongo-start"
-	@echo "	mongo-stop"
-	@echo "	mongo-init-user"
+	@echo "	up - starts a mongodb"
+	@echo "	down - stops a mongodb"
+	@echo "	do-machine-create - creates a Droplet for mongodb"
+	@echo "	do-machine - activates a docker machine with mongodb"
 	@echo
 
 up:
