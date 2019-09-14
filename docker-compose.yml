@@ -12,4 +12,4 @@ services:
             -  mongodb-data:/data/db
 
 volumes:
-  mongodb-data:
+    mongodb-data:
