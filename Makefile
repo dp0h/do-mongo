@@ -36,7 +36,7 @@ restore:
 	mongorestore --username $(MONGO_ADM) --password $(MONGO_ADM_PSW)
 
 do-machine-create:
-	docker-machine create --digitalocean-size "s-1vcpu-1gb" --driver digitalocean --digitalocean-access-token $(DO_ACCESS_TOKEN) --digitalocean-region lon1 $(MONGO_CONTAINER) --digitalocean-private-networking true
+	docker-machine create --digitalocean-size "s-1vcpu-1gb" --driver digitalocean --digitalocean-access-token $(DO_ACCESS_TOKEN) --digitalocean-region fra1 --digitalocean-private-networking $(MONGO_CONTAINER) 
 
 #do-machine-attach:
 #	docker-machine create --driver generic --generic-ip-address=$(MONGO_HOST) --generic-ssh-key ~/.docker/machine/$(MONGO_CONTAINER)/id_rsa $(MONGO_CONTAINER)
