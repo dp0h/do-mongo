@@ -30,10 +30,16 @@ create-backup-user:
 	mongo admin --host $(MONGO_HOST) --port $(MONGO_PORT) -u $(MONGO_ADM) -p $(MONGO_ADM_PSW) --eval "db.createUser({user: '$(MONGO_BACKUP_USER)', pwd: '$(MONGO_BACKUP_USER_PSW)', roles: [{role: 'backup', db: 'admin'}], passwordDigestor:'server'});"
 
 dump:
-	mongodump --username $(MONGO_BACKUP_USER) --password $(MONGO_BACKUP_USER_PSW) --excludeCollectionsWithPrefix=system --authenticationDatabase admin --db $(MONGO_APP_DB)
+	mongodump --host $(MONGO_HOST) --port $(MONGO_PORT) --username $(MONGO_BACKUP_USER) --password $(MONGO_BACKUP_USER_PSW) --excludeCollectionsWithPrefix=system --authenticationDatabase admin --db $(MONGO_APP_DB)
+
+dump-arc:
+	mongodump --host $(MONGO_HOST) --port $(MONGO_PORT) --username $(MONGO_BACKUP_USER) --password $(MONGO_BACKUP_USER_PSW) --excludeCollectionsWithPrefix=system --authenticationDatabase admin --db $(MONGO_APP_DB) --archive --gzip | cat > dump_`date +%Y-%m-%d.%H:%M:%S`.gz
 
 restore:
 	mongorestore --username $(MONGO_ADM) --password $(MONGO_ADM_PSW)
+
+restore-arc:
+	cat dump.gz | mongorestore --archive --gzip --drop --db $(MONGO_APP_DB) 
 
 do-machine-create:
 	docker-machine create --digitalocean-size "s-1vcpu-1gb" --driver digitalocean --digitalocean-access-token $(DO_ACCESS_TOKEN) --digitalocean-region fra1 --digitalocean-private-networking $(MONGO_CONTAINER) 
